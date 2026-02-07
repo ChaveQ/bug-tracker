@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS bug_severities (
         name VARCHAR(20) NOT NULL UNIQUE);
 
 CREATE TABLE IF NOT EXISTS bugs (
-        id INT AUTO_INCREMENT PRIMARY KEY,
+        id BIGINT AUTO_INCREMENT PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         description TEXT,
         severity_id INT NOT NULL,
