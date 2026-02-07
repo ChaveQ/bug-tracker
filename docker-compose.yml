@@ -16,5 +16,29 @@ services:
       - ./infra/db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/mysql
 
+  server-api:
+    build:
+      context: ./bug-tracker-server
+      dockerfile: Dockerfile
+    container_name: bugtracker_api
+    restart: on-failure
+    ports:
+      - "8084:8080"
+    environment:
+      - JDBC_URL=jdbc:mysql://db:3306/bugtracker
+      - DB_USERNAME=dev_user
+      - DB_PASSWORD=dev_password
+      - CORS_ALLOWED_ORIGINS=http://localhost:8085
+
+  client-ui:
+    build:
+      context: ./bug-tracker-client
+      dockerfile: Dockerfile
+    container_name: bugtracker_ui
+    ports:
+      - "8085:8080"
+    environment:
+      - API_BUGTRACKER_URL=http://localhost:8084/api/bugs
+
 volumes:
   db_data:
